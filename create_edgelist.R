@@ -61,6 +61,14 @@ region_labelcex <- (0.025 * V(regionNetwork)$vertex_degree)
 
 ### Create Edgelist with only Unique Edges
 region_edgelist <- unique( region_edgelist[ , 1:2 ] )
+
+for (x in 1:nrow(region_edgelist)) {
+  for (y in 2:nrow(region_edgelist)) {
+    print((region_edgelist[x]))
+    print(region_edgelist[y])
+  }
+}
+
 regionNetwork <- graph.edgelist(region_edgelist, directed=T)
 
 #### Set Vertex Degree in Deduplicated Network
