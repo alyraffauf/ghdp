@@ -21,7 +21,7 @@ fundingNetwork <- graph.edgelist(funding_edgelist, directed=T)
 symbol_country = sqldf("SELECT b.Country as symbol_country
                        FROM org_links a
                        INNER JOIN attributes b ON(a.Symbol= b.Name)")
-referent_country = sqldf("SELECT b.Country as referentcountry
+referent_country = sqldf("SELECT b.Country as referent_country
                          FROM org_links a
                          INNER JOIN attributes b ON(a.Referent= b.Name)")
 
@@ -36,6 +36,10 @@ country_labelcex <- (0.025 * V(countryNetwork)$vertex_degree)
 
 ## Create Edgelist with only Unique Edges
 country_edgelist <- unique( country_edgelist[ , 1:2 ] )
+
+### Remove cases where Symbol and Referent are the same.
+country_edgelist <- country_edgelist[country_edgelist[, "symbol_country"] != country_edgelist[, "referent_country"],]
+
 countryNetwork <- graph.edgelist(country_edgelist, directed=T)
 
 ### Set Vertex Degree in Deduplicated Network
@@ -62,12 +66,8 @@ region_labelcex <- (0.025 * V(regionNetwork)$vertex_degree)
 ### Create Edgelist with only Unique Edges
 region_edgelist <- unique( region_edgelist[ , 1:2 ] )
 
-for (x in 1:nrow(region_edgelist)) {
-  for (y in 2:nrow(region_edgelist)) {
-    print((region_edgelist[x]))
-    print(region_edgelist[y])
-  }
-}
+### Remove cases where Symbol and Referent are the same.
+region_edgelist <- region_edgelist[region_edgelist[, "symbol_region"] != region_edgelist[, "referent_region"],]
 
 regionNetwork <- graph.edgelist(region_edgelist, directed=T)
 

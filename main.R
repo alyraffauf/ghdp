@@ -8,7 +8,6 @@ source("create_edgelist.R")
 attributes <- as.matrix(attributes)
 
 for (x in 1:nrow(attributes)) {
-  print((attributes[, "Name"][x]))
   V(orgNetwork)[(attributes[, "Name"][x])]$Funding <- attributes[, "Funding"][x]
   V(orgNetwork)[(attributes[, "Name"][x])]$Region <- attributes[, "Region"][x]
   V(orgNetwork)[(attributes[, "Name"][x])]$Country <- attributes[, "Country"][x]
