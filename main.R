@@ -5,8 +5,10 @@ library(sqldf)
 source("create_edgelist.R")
 
 # Convert Attributes to Matrix
+## Makes it easier for us to work with.
 attributes <- as.matrix(attributes)
 
+## Read the attribute data into their counterparts in the orgNetwork
 for (x in 1:nrow(attributes)) {
   V(orgNetwork)[(attributes[, "Name"][x])]$Funding <- attributes[, "Funding"][x]
   V(orgNetwork)[(attributes[, "Name"][x])]$Region <- attributes[, "Region"][x]
@@ -17,8 +19,12 @@ for (x in 1:nrow(attributes)) {
 # Set color codes for Orgs
 source("set_org_colors.R")
 
+# This is our layout - a variety of layouts could be used, 
+# but this one works well for the most part.
 layout <- layout.fruchterman.reingold(orgNetwork, dim=2)
 
+# Set the size of our vertices (nodes on the graph) and our labels 
+# based on their connections
 V(orgNetwork)$vertex_degree <- (degree(orgNetwork) + 10)/5
 V(orgNetwork)$label.cex <- (0.025 * V(orgNetwork)$vertex_degree)
 
@@ -54,10 +60,10 @@ color_plot_network = function(graph_name, color) {
   dev.off()
 }
 
-color_plot_network("group-to-group with color by funding", V(orgNetwork)$funding_color)
-color_plot_network("group-to-group with color by region", V(orgNetwork)$region_color)
-color_plot_network("group-to-group with color by country", V(orgNetwork)$country_color)
-color_plot_network("group-to-group with color by income", V(orgNetwork)$income_color)
+color_plot_network("symbol-to-referent with color by funding", V(orgNetwork)$funding_color)
+color_plot_network("symbol-to-referent with color by region", V(orgNetwork)$region_color)
+color_plot_network("symbol-to-referent with color by country", V(orgNetwork)$country_color)
+color_plot_network("symbol-to-referent with color by income", V(orgNetwork)$income_color)
 
 # Write Country-to-Country PDF
 pdf_name = paste("country-to-country", ".pdf", sep="")

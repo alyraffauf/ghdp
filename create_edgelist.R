@@ -30,11 +30,11 @@ head(country_edgelist)
 country_edgelist <- as.matrix(country_edgelist)
 countryNetwork <- graph.edgelist(country_edgelist, directed=T)
 
-## Get Vertex Degree based on number of Edges
+### Get Vertex Degree based on number of Edges
 country_vertex_degree <- (degree(countryNetwork))/3000
 country_labelcex <- (0.025 * V(countryNetwork)$vertex_degree)
 
-## Create Edgelist with only Unique Edges
+### Create Edgelist with only Unique Edges
 country_edgelist <- unique( country_edgelist[ , 1:2 ] )
 
 ### Remove cases where Symbol and Referent are the same.
