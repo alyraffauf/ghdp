@@ -17,6 +17,18 @@ head(funding_edgelist)
 funding_edgelist <- as.matrix(funding_edgelist)
 fundingNetwork <- graph.edgelist(funding_edgelist, directed=T)
 
+### Get Vertex Degree based on number of Edges
+funding_vertex_degree <- (degree(fundingNetwork))/3000
+funding_labelcex <- (0.025 * V(fundingNetwork)$vertex_degree)
+
+### Create Edgelist with only Unique Edges
+funding_edgelist <- unique( funding_edgelist[ , 1:2 ] )
+
+### Remove cases where Symbol and Referent are the same.
+funding_edgelist <- funding_edgelist[funding_edgelist[, "symbol_funding"] != funding_edgelist[, "referent_funding"],]
+
+fundingNetwork <- graph.edgelist(funding_edgelist, directed=T)
+
 ## Create Country-to-Country Edgelist
 symbol_country = sqldf("SELECT b.Country as symbol_country
                        FROM org_links a
@@ -86,6 +98,18 @@ referent_income = sqldf("SELECT b.Income as referent_income
 income_edgelist<- merge(symbol_income, referent_income, by.symbol_income = 0, by.referent_income = res)
 head(income_edgelist)
 income_edgelist <- as.matrix(income_edgelist)
+incomeNetwork <- graph.edgelist(income_edgelist, directed=T)
+
+### Get Vertex Degree based on number of Edges
+income_vertex_degree <- (degree(incomeNetwork))/3000
+income_labelcex <- (0.025 * V(incomeNetwork)$vertex_degree)
+
+### Create Edgelist with only Unique Edges
+income_edgelist <- unique( income_edgelist[ , 1:2 ] )
+
+### Remove cases where Symbol and Referent are the same.
+income_edgelist <- income_edgelist[income_edgelist[, "symbol_income"] != income_edgelist[, "referent_income"],]
+
 incomeNetwork <- graph.edgelist(income_edgelist, directed=T)
 
 ## Create Base Org-to-Org Edgelist

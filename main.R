@@ -1,4 +1,9 @@
-# Load packages/libraries
+# Load Dependencies
+## Make sure packages are installed and up-to-date.
+install.packages("igraph")
+install.packages("sqldf")
+
+## Load packages so we can use them in our code.
 library(igraph)
 library(sqldf)
 
@@ -115,4 +120,56 @@ plot(regionNetwork,
      edge.arrow.size = .1, 
      edge.width = .2)
 mtext("region-to-region")
+dev.off()
+
+# Write Funding-to-Funding PDF
+pdf_name = paste("funding-to-funding", ".pdf", sep="")
+pdf(pdf_name, height=8.5, width=11)
+plot(fundingNetwork, 
+     margin = 0,
+     curved=TRUE,
+     layout=layout.fruchterman.reingold(fundingNetwork, dim=2),
+     # mark.groups = ngoMultiGroup,
+     
+     vertex.size = V(fundingNetwork)$vertex_degree, 
+     vertex.color = "tomato", 
+     vertex.shape = "circle", 
+     vertex.frame.color = "black", 
+     
+     vertex.label.color = "black",
+     vertex.label.font = 2,
+     vertex.label.degree = -pi/2,
+     vertex.label.dist = 0,
+     
+     edge.color="black",
+     edge.curved = .3, 
+     edge.arrow.size = .1, 
+     edge.width = .2)
+mtext("funding-to-funding")
+dev.off()
+
+# Write income-to-income PDF
+pdf_name = paste("income-to-income", ".pdf", sep="")
+pdf(pdf_name, height=8.5, width=11)
+plot(incomeNetwork, 
+     margin = 0,
+     curved=TRUE,
+     layout=layout.fruchterman.reingold(incomeNetwork, dim=2),
+     # mark.groups = ngoMultiGroup,
+     
+     vertex.size = V(incomeNetwork)$vertex_degree, 
+     vertex.color = "tomato", 
+     vertex.shape = "circle", 
+     vertex.frame.color = "black", 
+     
+     vertex.label.color = "black",
+     vertex.label.font = 2,
+     vertex.label.degree = -pi/2,
+     vertex.label.dist = 0,
+     
+     edge.color="black",
+     edge.curved = .3, 
+     edge.arrow.size = .1, 
+     edge.width = .2)
+mtext("income-to-income")
 dev.off()
