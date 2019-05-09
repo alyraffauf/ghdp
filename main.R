@@ -44,7 +44,7 @@ color_plot_network = function(graph_name, color) {
   plot(orgNetwork, 
        margin = 0,
        curved=TRUE,
-       layout=layout_nicely,
+       layout=layout,
        # mark.groups = ngoMultiGroup,
        
        vertex.size = V(orgNetwork)$vertex_degree, 
